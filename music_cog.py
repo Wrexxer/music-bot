@@ -22,8 +22,9 @@ class music_cog(commands.Cog):
                 info = ydl.extract_info("ytsearch:%s" % item, download=False)['entries'][0]
             except Exception:
                 return False
-        return {'source': info['formats'[0]['url']], 'title' : info['title']}
-
+        return {'source': info['formats'][0]['url'], 'title': info['title']}   
+    
+     
     def play_next(self):
         if len(self.music_queue) > 0:
             self.is_playing = True
@@ -63,15 +64,15 @@ class music_cog(commands.Cog):
     async def play(self, ctx, *args):
         query = " ".join(args)
 
-        voice_channel = ctx.author.voice.channel 
+        voice_channel = ctx.author.voice.channel  
         if voice_channel is None:
-            await ctx.send("Connected to a voice channel")
+            await ctx.send("Connect to a voice channel")
         elif self.is_paused:
             self.vc.resume()
         else:
             song = self.search_yt(query)
             if type(song) == type(True):
-                await ctx.send("Could not play the song. Incorrect format, try a different keywor")
+                await ctx.send("Could not play the song. Incorrect format, try a different keyword")
             else:
                 await ctx.send("Song added to the queue")
                 self.music_queue.append([song, voice_channel])
@@ -107,11 +108,11 @@ class music_cog(commands.Cog):
     async def queue(self, ctx):
         retval = " "
 
-        for i in range(0, len(self.music_queue)):
-            if i > 8: break
-            retval += self.music_queue[i][0]['title'] + '\n'
+        for number in range(0, len(self.music_queue)):
+            if number > 8: break
+            retval += self.music_queue[number][0]['title'] + '\n'
 
-        if retval != " ":
+        if retval != "":
             await ctx.send(retval)
         else:
             await ctx.send("The queue is empty")

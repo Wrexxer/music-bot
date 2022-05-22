@@ -9,8 +9,8 @@ class help_cog(commands.Cog):
 ```
 General commands:
 -help - displays al the available commands
--p <keywords> play a song
--q - shows the current queue
+-play - play a song
+-queue - shows the current queue
 -skip - skip the current song
 -clear - stops the music and clears the queue
 -leave - disconnects the bot from the voice channel
